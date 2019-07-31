@@ -1,0 +1,23 @@
+.slidePane {
+    -fx-padding: 1.5em;
+    -fx-spacing: 1em;
+    /* -fx-background-color: #4B9AF6; */
+    -fx-background-color: #4B9AF6;
+}
+
+.sideTitle {
+    -fx-font-family: Arial;
+    -fx-font-size: 28;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-text-fill: #FFF;
+}
+
+#mainView {
+    -fx-background-color: #000;
+}
+
+#configBtn {
+    -fx-spacing: 2em;
+    -fx-background-radius: 10em;
+}

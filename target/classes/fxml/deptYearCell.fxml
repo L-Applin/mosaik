@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+
+<fx:root type="javafx.scene.control.ListCell"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:id="deptYearCell"
+         styleClass="cell">
+
+    <stylesheets>
+        <URL value="@../css/studentResultDialog.css"/>
+    </stylesheets>
+
+    <graphic>
+
+        <GridPane fx:id="gridPane">
+
+            <columnConstraints>
+                <ColumnConstraints percentWidth=".4"/>
+                <ColumnConstraints percentWidth=".1"/>
+                <ColumnConstraints percentWidth=".5"/>
+            </columnConstraints>
+
+            <Label text="%departement" styleClass="title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Label fx:id="departement" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="content"/>
+
+            <Label text="%year" styleClass="title" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <Label fx:id="year" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="content"/>
+
+        </GridPane>
+
+    </graphic>
+
+</fx:root>
