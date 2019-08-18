@@ -66,6 +66,11 @@
 
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
 
             <plugin>
@@ -123,6 +128,7 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.25</version>
                 <executions>
                     <execution>
                         <id>l4j-clui</id>
@@ -130,19 +136,16 @@
                         <goals><goal>launch4j</goal></goals>
                         <configuration>
                             <headerType>console</headerType>
-                            <outfile>target/mosaik.exe</outfile>
+                            <outfile>app/mosaik.exe</outfile>
                             <jar>target/mosaik-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
                             <errTitle>encc</errTitle>
                             <classPath>
-                                <mainClass>com.akathist.encc.Clui</mainClass>
-                                <addDependencies>false</addDependencies>
+                                <mainClass>app.Main</mainClass>
+                                <addDependencies>true</addDependencies>
                                 <preCp>anything</preCp>
                             </classPath>
                             <jre>
-                                <minVersion>1.5.0</minVersion>
-                                <opts>
-                                    <opt>-Djava.endorsed.dirs=./endorsed</opt>
-                                </opts>
+                                <minVersion>1.8</minVersion>
                             </jre>
                             <versionInfo>
                                 <fileVersion>1.2.3.4</fileVersion>

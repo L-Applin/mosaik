@@ -86,12 +86,12 @@ public class MainWindowController {
 
         // make sideBar full height
         sidebarMenu.prefHeightProperty().bind(height);
+        sidebarMenu.setPickOnBounds(false);
         sidebarMenuContent.prefHeightProperty().bind(height);
 
         //make image view full height-width
         mosaicImage.fitWidthProperty().bind(width);
         mosaicImage.fitHeightProperty().bind(height);
-
 
         udemLogo.prefWidth(sidebarMenu.widthProperty().doubleValue());
         departementsCombo.prefWidth(sidebarMenuContent.getWidth());
@@ -99,7 +99,9 @@ public class MainWindowController {
         // animation sidebar
         sideBarControl = new EventType<>("side_bar_control");
         sidebarEventHandler = new SidebarEventHandler(350);
-        mainView.addEventHandler(sideBarControl, sidebarEventHandler);
+        mainView.setOnTouchPressed(sidebarEventHandler);
+
+        //mainView.setOnMouseClicked(Event::consume);
 
         try {
             // random first image
@@ -222,10 +224,11 @@ public class MainWindowController {
 
         try {
             loader.loadImage(mosaicImage, path);
-            mainView.fireEvent(new Event(sideBarControl));
         } catch (IOException ioe){
             logger.error("erreur pendant l'affichage de l'image {}", path);
             logger.error(ioe.getMessage(), ioe);
+        } finally {
+            mainView.fireEvent(new Event(sideBarControl));
         }
     }
 

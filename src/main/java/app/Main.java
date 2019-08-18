@@ -51,8 +51,7 @@ public class Main extends Application {
             c.initPostLoad();
 
             Scene scene = new Scene(root);
-            primaryStage.maxWidthProperty().setValue(1920);
-            primaryStage.maxHeightProperty().setValue(1080);
+            primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);
             primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.show();

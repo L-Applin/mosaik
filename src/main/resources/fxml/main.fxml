@@ -17,64 +17,57 @@
 <?import javafx.scene.layout.VBox?>
 
 <StackPane fx:id="mainView" maxHeight="768.0" maxWidth="1024.0" onMouseClicked="#sidebarControlMouse" onTouchPressed="#sidebarControl" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainWindowController">
-
-
     <stylesheets>
         <URL value="@../css/main.css" />
     </stylesheets>
 
+    <ImageView fx:id="mosaicImage" preserveRatio="true" StackPane.alignment="CENTER"/>
 
-    <ImageView fx:id="mosaicImage" preserveRatio="true" StackPane.alignment="CENTER">
+    <Pane fx:id="sidebarMenu">
+        <effect>
+            <DropShadow color="black" offsetX="2." radius="20.0" />
+        </effect>
 
-    </ImageView>
-
-        <Pane fx:id="sidebarMenu">
-
-            <effect>
-                <DropShadow color="black" offsetX="2." radius="20.0" />
-            </effect>
-
-            <VBox fx:id="sidebarMenuContent" styleClass="slidePane">
-         <ImageView fx:id="udemLogo" fitHeight="171.0" fitWidth="381.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../img/Logo_Fac_Art-vertical-blanc.png" />
-            </image>
-            <VBox.margin>
-               <Insets bottom="40.0" />
-            </VBox.margin>
-            <viewport>
-               <Rectangle2D />
-            </viewport>
-         </ImageView>
-
-                <Label fx:id="sidebarMenuNouvelleRecherche" alignment="CENTER" styleClass="sideTitle" text="%search_title" textFill="WHITE" />
-                <ComboBox fx:id="departementsCombo" maxWidth="1.7976931348623157E308" prefHeight="40.0" promptText="%departement" VBox.vgrow="ALWAYS" />
-                <ComboBox fx:id="gradYearCombo" editable="true" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="40.0" promptText="%year" visibleRowCount="4" />
-                <Label fx:id="sidebarMenuEtudiant" alignment="CENTER" styleClass="sideTitle" text="%alumni" textFill="WHITE">
+        <VBox fx:id="sidebarMenuContent" styleClass="slidePane">
+            <ImageView fx:id="udemLogo" fitHeight="171.0" fitWidth="381.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                   <Image url="@../img/Logo_Fac_Art-vertical-blanc.png" />
+                </image>
+                <VBox.margin>
+                   <Insets bottom="40.0" />
+                </VBox.margin>
+                <viewport>
+                   <Rectangle2D />
+                </viewport>
+            </ImageView>
+            <Label fx:id="sidebarMenuNouvelleRecherche" alignment="CENTER" styleClass="sideTitle" text="%search_title" textFill="WHITE" />
+            <ComboBox fx:id="departementsCombo" maxWidth="1.7976931348623157E308" prefHeight="40.0" promptText="%departement" VBox.vgrow="ALWAYS" />
+            <ComboBox fx:id="gradYearCombo" editable="true" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="40.0" promptText="%year" visibleRowCount="4" />
+            <Label fx:id="sidebarMenuEtudiant" alignment="CENTER" styleClass="sideTitle" text="%alumni" textFill="WHITE">
             <padding>
                <Insets top="40.0" />
             </padding></Label>
-         <TextField fx:id="studentNameField" prefHeight="40.0" promptText="nom de la personne recherchée" />
-                <HBox>
-                    <Region HBox.hgrow="ALWAYS" />
-                    <Button onAction="#launchSearch" text="%search_btn_text">
-               <padding>
-                  <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
-               </padding>
-            </Button>
-            <VBox.margin>
-               <Insets />
-            </VBox.margin>
-            <padding>
-               <Insets top="40.0" />
-            </padding>
-                </HBox>
+            <TextField fx:id="studentNameField" prefHeight="40.0" promptText="nom de la personne recherchée" />
+            <HBox>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button onAction="#launchSearch" text="%search_btn_text">
+                    <padding>
+                        <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+                </padding>
+                </Button>
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+                <padding>
+                   <Insets top="40.0" />
+                </padding>
+            </HBox>
 
-            </VBox>
-      <StackPane.margin>
-         <Insets right="10.0" />
-      </StackPane.margin>
-        </Pane>
+        </VBox>
+        <StackPane.margin>
+            <Insets right="10.0" />
+        </StackPane.margin>
+    </Pane>
     <!--<Button fx:id="configBtn" focusTraversable="false" StackPane.alignment="BOTTOM_RIGHT">
       <StackPane.margin>
          <Insets bottom="30.0" right="40.0" />
@@ -88,6 +81,5 @@
         </graphic>
 
     </Button>-->
-
 
 </StackPane>
