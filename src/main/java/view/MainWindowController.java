@@ -1,6 +1,7 @@
 package view;
 
 import app.AppConfig;
+import app.AppUtils;
 import app.Bundles;
 import ij.ImagePlus;
 import ij.io.Opener;
@@ -17,26 +18,26 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import result.MosaicSearchResult;
+import update.UpdateImgTask;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @FXMLController("fxml/main.fxml")
@@ -69,6 +70,7 @@ public class MainWindowController {
     private SidebarEventHandler sidebarEventHandler;
     private GaussianBlur blurr;
 
+    private UpdateImgTask updateImgTask;
 
     /**
      * The search interface
@@ -100,17 +102,11 @@ public class MainWindowController {
         sideBarControl = new EventType<>("side_bar_control");
         sidebarEventHandler = new SidebarEventHandler(350);
         mainView.addEventHandler(sideBarControl, sidebarEventHandler);
+        mainView.setOnTouchReleased(event -> {});
 
         try {
-            // random first image
-            String imagesPath = AppConfig.getInstance().getRawImgFolderPath();
-            List<String> imgs = Files.walk(Paths.get(imagesPath))
-                    .map(Path::toFile)
-                    .filter(f ->f.getPath().endsWith(".tif"))
-                    .map(Objects::toString)
-                    .collect(Collectors.toList());
 
-            String img = imgs.get(new Random().nextInt(imgs.size()));
+            String img = AppUtils.randomImg();
 
             logger.info("Mosaique aléatoire choisie : {}", img);
             ImagePlus imagePlus = new Opener().openTiff(img, "");
@@ -127,6 +123,13 @@ public class MainWindowController {
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
+
+        updateImgTask = new UpdateImgTask(mosaicImage)
+                .setOnBegin(() -> logger.info("loading random image"))
+                .setOnEnd(() -> logger.info("random image loaded"));
+
+        updateImgTask.setOpened(true);
+        updateImgTask.startUp();
 
     }
 
@@ -247,8 +250,10 @@ public class MainWindowController {
 
 
     public void sidebarControlMouse(MouseEvent mouseEvent) {
+        updateImgTask.cancel();
         sidebarEventHandler.setMaxWidth(sidebarMenu.getBoundsInParent().getWidth());
         mainView.fireEvent(new Event(sideBarControl));
+        updateImgTask.startUp();
 
     }
 
@@ -283,6 +288,7 @@ public class MainWindowController {
             hideSidebar.onFinishedProperty().set(__ -> {
                 sidebarMenu.setVisible(false);
                 mosaicImage.effectProperty().setValue(null);
+                updateImgTask.setOpened(false);
             });
 
             // create an animation to show a sidebar.
@@ -299,7 +305,7 @@ public class MainWindowController {
             showSidebar.onFinishedProperty().set(__ -> {
                 sidebarMenu.setVisible(true);
                 mosaicImage.setEffect(blurr);
-                // configBtn.setVisible(true);
+                updateImgTask.setOpened(true);
             });
 
 
@@ -308,7 +314,6 @@ public class MainWindowController {
                     hideSidebar.statusProperty().get() == Animation.Status.STOPPED) {
                 if (sidebarMenu.isVisible()) {
                     hideSidebar.play();
-                    // configBtn.setVisible(false);
                 } else {
                     sidebarMenu.setVisible(true);
                     showSidebar.play();
