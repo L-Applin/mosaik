@@ -1,3 +1,4 @@
+/Users/Applin/Documents/dev/mosaik/src/main/java/app/AppUtils.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/result/StudentResultCell.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/entity/Student.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/result/StudentSearchResult.java
@@ -8,8 +9,10 @@
 /Users/Applin/Documents/dev/mosaik/src/main/java/indexing/IMosaicInterface.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/view/ResutlTask.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/app/Main.java
+/Users/Applin/Documents/dev/mosaik/src/main/java/update/UpdateImgTask.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/result/MosaicSearchResult.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/app/Bundles.java
+/Users/Applin/Documents/dev/mosaik/src/main/java/images/TiffImageLoaderWithTransition.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/view/StudentResultDialog.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/view/StudentResultDialogController.java
 /Users/Applin/Documents/dev/mosaik/src/main/java/result/DeptYearResultCellFactory.java

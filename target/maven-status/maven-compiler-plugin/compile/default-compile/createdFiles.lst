@@ -1,6 +1,8 @@
 result/StudentSearchResult$MosaicResult.class
 result/StudentSearchResult.class
 result/MosaicSearchResult.class
+update/UpdateImgTask$LONG.class
+app/AppUtils.class
 view/MainWindowController$SidebarEventHandler$1.class
 indexing/IndexServiceFactory.class
 view/FXMLController.class
@@ -13,7 +15,9 @@ view/DeptYearResultDialogController.class
 result/StudentResultCellFactory.class
 images/TifImageLoader.class
 view/MainWindowController$SidebarEventHandler.class
+update/UpdateImgTask.class
 result/DeptYearSearchResult.class
+update/UpdateImgTask$1.class
 view/MainWindowController$SidebarEventHandler$2.class
 entity/UnknownDate.class
 app/Main.class
@@ -23,9 +27,11 @@ indexing/IndexService.class
 entity/Departement.class
 view/StudentResultDialogController.class
 result/StudentResultCell.class
+update/UpdateImgTask$SHORT.class
 view/MainWindowController.class
 app/Bundles.class
 view/ResutlTask.class
 indexing/IMosaicInterface.class
 view/StudentResultDialog.class
 entity/Student.class
+images/TiffImageLoaderWithTransition.class

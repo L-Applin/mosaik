@@ -2,7 +2,7 @@ package update;
 
 import app.AppUtils;
 import images.ImageLoader;
-import images.TifImageLoader;
+import images.TiffImageLoaderWithTransition;
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import lombok.extern.slf4j.Slf4j;
@@ -11,14 +11,23 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Slf4j
 public class UpdateImgTask {
 
-    private static final long INITIAL_DELAY = 1000 * 10; // 3 minutes is : 60 sec * 1000 ms * 3
-    private static final long PERIOD = 1000 * 5;            // 20seconds is : 20 sec * 1000 ms
+    private static class LONG {
+        private static final long INITIAL_DELAY = 1000 * 60 * 3; // 3 minutes is : 60 sec * 1000 ms * 3
+        private static final long PERIOD = 1000 * 20;            // 20seconds is : 20 sec * 1000 ms
+    }
+
+    private static class SHORT {
+        private static final long INITIAL_DELAY = 1000 * 10; // 10 sec
+        private static final long PERIOD = 1000 * 10;        // 20seconds is : 20 sec * 1000 ms
+    }
+
+    private static final long INITIAL_DELAY = SHORT.INITIAL_DELAY;
+    private static final long PERIOD =        SHORT.PERIOD;
 
     private Timer timer;
     private ImageView imageView;
@@ -35,7 +44,7 @@ public class UpdateImgTask {
 
     public UpdateImgTask(ImageView imageView) {
         this.timer = new Timer();
-        loader = new TifImageLoader();
+        loader = new TiffImageLoaderWithTransition();
         this.imageView = imageView;
     }
 

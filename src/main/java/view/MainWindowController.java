@@ -10,6 +10,7 @@ import images.TifImageLoader;
 import indexing.IMosaicInterface;
 import indexing.IndexService;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.Transition;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.embed.swing.SwingFXUtils;
@@ -130,6 +131,7 @@ public class MainWindowController {
 
         updateImgTask.setOpened(true);
         updateImgTask.startUp();
+
 
     }
 

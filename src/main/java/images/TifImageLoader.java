@@ -11,9 +11,13 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class TifImageLoader implements ImageLoader {
+
     @Override
     public void loadImage(ImageView imageView, String pathToImg) throws IOException {
+        imageView.setImage(getImage(pathToImg));
+    }
 
+    protected Image getImage(String pathToImg) throws IOException {
         ImagePlus imagePlus = new Opener().openTiff(pathToImg, "");
 
         if (Objects.isNull(imagePlus)){
@@ -21,8 +25,7 @@ public class TifImageLoader implements ImageLoader {
         }
 
         BufferedImage bufferedImage = imagePlus.getBufferedImage();
-        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-        imageView.setImage(image);
+        return SwingFXUtils.toFXImage(bufferedImage, null);
 
     }
 
