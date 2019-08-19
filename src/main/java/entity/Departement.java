@@ -2,6 +2,7 @@ package entity;
 
 public enum Departement {
 
+
     CHIMIE("C", "Chimie", "Chimie"),
     SCI_BIO("SB", "Sciences biologiques", "Sciences biologiques"),
     GEOGRAPHIE("G", "Géographie", "Géographie"),

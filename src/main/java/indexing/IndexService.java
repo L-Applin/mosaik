@@ -185,15 +185,17 @@ public class IndexService implements IMosaicInterface {
 
 
     private List<String> toDeptYearAsString(TopDocs hits) throws IOException {
-        return Stream
+        return new ArrayList<>(
+                Stream
                 .of(hits.scoreDocs)
                 .map(this::getYearSneaky)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet())
+        );
     }
 
     private String getYearSneaky(ScoreDoc docu){
         try {
-            return Departement.of(searcher.doc(docu.doc).get(year_field)).displayName;
+            return searcher.doc(docu.doc).get(year_field);
         } catch (IOException ioe){
             throw new RuntimeException(ioe);
         }
@@ -334,8 +336,8 @@ public class IndexService implements IMosaicInterface {
 
 
     @Override
-    public List<String> getAllyearsForDept(Departement departement) throws IOException {
-        TopDocs hits = searcher.search(new TermQuery(new Term(dept_field, departement.displayName)), 5000);
+    public List<String> getAllyearsForDept(String departement) throws IOException {
+        TopDocs hits = searcher.search(new TermQuery(new Term(dept_field, departement)), 5000);
         return toDeptYearAsString(hits);
     }
 

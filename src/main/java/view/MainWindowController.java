@@ -19,6 +19,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -142,20 +143,29 @@ public class MainWindowController {
         updateImgTask.setOpened(true);
         updateImgTask.startUp();
 
-        departementsCombo.getProperties().put(VK_TYPE_PROP_KEY, 1);
+        departementsCombo.getProperties().put(VK_TYPE_PROP_KEY, "numeric");
 
-//        departementsCombo.getSelectionModel().selectedItemProperty().addListener((op, old, val)->{
-//
-//            logger.info("old {}", old);
-//            logger.info("val {}", val);
-//
-//            try {
-//                List<String> years = service.getAllyearsForDept(Departement.of(val));
-//                years.sort(String.CASE_INSENSITIVE_ORDER);
-//                gradYearCombo.getItems().clear();
-//                gradYearCombo.getItems().addAll(years);
-//            } catch (IOException ioe){ logger.error("cant update year combo.",ioe);}
+//        departementsCombo.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
+//            VirtualKeyboard keyboard = new VirtualKeyboard();
+//            if (newPropertyValue) {
+//                keyboard.show(departementsCombo);
+//            } else {
+//                keyboard.hide();
+//            }
 //        });
+
+        departementsCombo.getSelectionModel().selectedItemProperty().addListener((op, old, val)->{
+
+            logger.info("old {}", old);
+            logger.info("val {}", val);
+
+            try {
+                List<String> years = service.getAllyearsForDept(val);
+                years.sort(String.CASE_INSENSITIVE_ORDER.reversed());
+                gradYearCombo.getItems().clear();
+                gradYearCombo.getItems().addAll(years);
+            } catch (IOException ioe){ logger.error("cant update year combo.",ioe);}
+        });
 
 
     }
@@ -233,6 +243,10 @@ public class MainWindowController {
     private void handleDeptYearResult(MosaicSearchResult res){
         logger.info("résultat de la recherche pour un dept/année a rapporté {} résultats", res.getResults().size());
         try {
+            if (res.getResults().size() == 1){
+                updateMosaicImg(res.getResults().get(0).getPath());
+                return;
+            }
             DeptYearResultDialog dialog = new DeptYearResultDialog(res.getResults());
             dialog.initOwner(primaryStage);
             dialog.showAndWait().ifPresent(this::updateMosaicImg);
@@ -351,5 +365,20 @@ public class MainWindowController {
             }
         }
     }
+
+
+
+
+    public class VirtualKeyboard {
+        public void show(Node node) {
+            node.getProperties().put(FXVK.VK_TYPE_PROP_KEY, "numeric");
+            FXVK.init(node);
+            FXVK.attach(node);
+        }
+        public void hide() {
+            FXVK.detach();
+        }
+    }
+
 }
 

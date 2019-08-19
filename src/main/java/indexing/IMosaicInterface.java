@@ -1,6 +1,5 @@
 package indexing;
 
-import entity.Departement;
 import lombok.NonNull;
 import result.MosaicSearchResult;
 
@@ -36,5 +35,5 @@ public interface IMosaicInterface {
     getAllValueForFieldName(@NonNull String fieldName) throws IOException;
 
     List<String>
-    getAllyearsForDept(Departement departement) throws IOException;
+    getAllyearsForDept(String departement) throws IOException;
 }
