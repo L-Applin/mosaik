@@ -48,6 +48,7 @@ public class Main extends Application {
             Parent root = loader.load();
             MainWindowController c = loader.getController();
             c.setMosaicInterface(service);
+            c.setPrimaryStage(primaryStage);
             c.initPostLoad();
 
             Scene scene = new Scene(root);

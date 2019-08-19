@@ -1,11 +1,14 @@
 package view;
 
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import result.*;
+import result.DeptYearResultCellFactory;
+import result.ResultItem;
 
+import java.util.Comparator;
 import java.util.List;
 
 import static result.DeptYearSearchResult.MosaicResult;
@@ -27,11 +30,15 @@ public class DeptYearResultDialogController {
                 event.consume();
             }
         });
-
     }
 
     public <T extends ResultItem> void addResults(List<T> items){
         items.forEach(res -> resultList.getItems().add((MosaicResult) res));
+        resultList.setItems(new SortedList<>(resultList.getItems(),
+                Comparator.comparing (
+                        (MosaicResult res) -> res.year,
+                        String.CASE_INSENSITIVE_ORDER.reversed())
+        ));
     }
 
     public void overridePaneDimension(double width, double height){

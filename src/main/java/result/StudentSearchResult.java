@@ -43,8 +43,8 @@ public class StudentSearchResult implements MosaicSearchResult {
      * Wrapper around the student and the path to its mosaic image
      */
     public static class MosaicResult implements ResultItem {
-        final String mosaicPath;
-        final Student student;
+        public final String mosaicPath;
+        public final Student student;
         MosaicResult(String mosaicPath, Student student) {
             this.mosaicPath = mosaicPath;
             this.student = student;

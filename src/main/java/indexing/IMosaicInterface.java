@@ -1,10 +1,11 @@
 package indexing;
 
+import entity.Departement;
 import lombok.NonNull;
 import result.MosaicSearchResult;
-import result.StudentSearchResult;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 public interface IMosaicInterface {
@@ -34,4 +35,6 @@ public interface IMosaicInterface {
     Set<String>
     getAllValueForFieldName(@NonNull String fieldName) throws IOException;
 
+    List<String>
+    getAllyearsForDept(Departement departement) throws IOException;
 }

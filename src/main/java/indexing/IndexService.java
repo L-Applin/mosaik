@@ -22,13 +22,14 @@ import result.DeptYearSearchResult;
 import result.MosaicSearchResult;
 import result.StudentSearchResult;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 // TODO: 2019-03-23 IOException handling
@@ -183,6 +184,20 @@ public class IndexService implements IMosaicInterface {
     }
 
 
+    private List<String> toDeptYearAsString(TopDocs hits) throws IOException {
+        return Stream
+                .of(hits.scoreDocs)
+                .map(this::getYearSneaky)
+                .collect(Collectors.toList());
+    }
+
+    private String getYearSneaky(ScoreDoc docu){
+        try {
+            return Departement.of(searcher.doc(docu.doc).get(year_field)).displayName;
+        } catch (IOException ioe){
+            throw new RuntimeException(ioe);
+        }
+    }
 
     @Override
     public void update(String soucreFile) throws IOException {
@@ -317,5 +332,11 @@ public class IndexService implements IMosaicInterface {
 
     }
 
+
+    @Override
+    public List<String> getAllyearsForDept(Departement departement) throws IOException {
+        TopDocs hits = searcher.search(new TermQuery(new Term(dept_field, departement.displayName)), 5000);
+        return toDeptYearAsString(hits);
+    }
 
 }

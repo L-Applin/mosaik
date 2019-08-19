@@ -1,7 +1,9 @@
 package view;
 
 import app.AppConfig;
+import app.AppUtils;
 import app.Bundles;
+import com.sun.javafx.scene.control.skin.FXVK;
 import ij.ImagePlus;
 import ij.io.Opener;
 import images.ImageLoader;
@@ -17,26 +19,29 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import result.MosaicSearchResult;
+import update.UpdateImgTask;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static com.sun.javafx.scene.control.skin.FXVK.VK_TYPE_PROP_KEY;
 
 
 @FXMLController("fxml/main.fxml")
@@ -61,14 +66,17 @@ public class MainWindowController {
     @FXML private StackPane          mainView;
     @FXML private ImageView          udemLogo;
     @FXML private ImageView          mosaicImage;
-    // @FXML private Button             configBtn;
     @FXML private TextField          studentNameField;
 
+    private Stage primaryStage;
+    public void setPrimaryStage(Stage primaryStage) { this.primaryStage = primaryStage; }
 
     private EventType<Event> sideBarControl;
+
     private SidebarEventHandler sidebarEventHandler;
     private GaussianBlur blurr;
 
+    private UpdateImgTask updateImgTask;
 
     /**
      * The search interface
@@ -80,6 +88,8 @@ public class MainWindowController {
 
     @FXML
     void initialize(){
+
+        logger.info("is virutal jeyboard supported : {}", FXVK.useFXVK());
 
         ReadOnlyDoubleProperty height = mainView.heightProperty();
         ReadOnlyDoubleProperty width = mainView.widthProperty();
@@ -99,20 +109,15 @@ public class MainWindowController {
         // animation sidebar
         sideBarControl = new EventType<>("side_bar_control");
         sidebarEventHandler = new SidebarEventHandler(350);
-        mainView.setOnTouchPressed(sidebarEventHandler);
+        mosaicImage.setOnTouchPressed(sidebarEventHandler);
 
         //mainView.setOnMouseClicked(Event::consume);
 
-        try {
-            // random first image
-            String imagesPath = AppConfig.getInstance().getRawImgFolderPath();
-            List<String> imgs = Files.walk(Paths.get(imagesPath))
-                    .map(Path::toFile)
-                    .filter(f ->f.getPath().endsWith(".tif"))
-                    .map(Objects::toString)
-                    .collect(Collectors.toList());
 
-            String img = imgs.get(new Random().nextInt(imgs.size()));
+
+        try {
+
+            String img = AppUtils.randomImg();
 
             logger.info("Mosaique aléatoire choisie : {}", img);
             ImagePlus imagePlus = new Opener().openTiff(img, "");
@@ -129,6 +134,29 @@ public class MainWindowController {
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
+
+        updateImgTask = new UpdateImgTask(mosaicImage)
+                .setOnBegin(() -> logger.info("loading random image"))
+                .setOnEnd(() -> logger.info("random image loaded"));
+
+        updateImgTask.setOpened(true);
+        updateImgTask.startUp();
+
+        departementsCombo.getProperties().put(VK_TYPE_PROP_KEY, 1);
+
+//        departementsCombo.getSelectionModel().selectedItemProperty().addListener((op, old, val)->{
+//
+//            logger.info("old {}", old);
+//            logger.info("val {}", val);
+//
+//            try {
+//                List<String> years = service.getAllyearsForDept(Departement.of(val));
+//                years.sort(String.CASE_INSENSITIVE_ORDER);
+//                gradYearCombo.getItems().clear();
+//                gradYearCombo.getItems().addAll(years);
+//            } catch (IOException ioe){ logger.error("cant update year combo.",ioe);}
+//        });
+
 
     }
 
@@ -206,6 +234,7 @@ public class MainWindowController {
         logger.info("résultat de la recherche pour un dept/année a rapporté {} résultats", res.getResults().size());
         try {
             DeptYearResultDialog dialog = new DeptYearResultDialog(res.getResults());
+            dialog.initOwner(primaryStage);
             dialog.showAndWait().ifPresent(this::updateMosaicImg);
         } catch (IOException ioe) {
             dialogError(ioe);
@@ -238,6 +267,7 @@ public class MainWindowController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         ResourceBundle bundle = ResourceBundle.getBundle(Bundles.STRINGS.bundle(), AppConfig.getInstance().getLocale());
         alert.setContentText(bundle.getString("dialog_error"));
+        alert.initOwner(primaryStage);
         alert.show();
     }
 
@@ -250,8 +280,10 @@ public class MainWindowController {
 
 
     public void sidebarControlMouse(MouseEvent mouseEvent) {
+        updateImgTask.cancel();
         sidebarEventHandler.setMaxWidth(sidebarMenu.getBoundsInParent().getWidth());
         mainView.fireEvent(new Event(sideBarControl));
+        updateImgTask.startUp();
 
     }
 
@@ -286,6 +318,7 @@ public class MainWindowController {
             hideSidebar.onFinishedProperty().set(__ -> {
                 sidebarMenu.setVisible(false);
                 mosaicImage.effectProperty().setValue(null);
+                updateImgTask.setOpened(false);
             });
 
             // create an animation to show a sidebar.
@@ -302,7 +335,7 @@ public class MainWindowController {
             showSidebar.onFinishedProperty().set(__ -> {
                 sidebarMenu.setVisible(true);
                 mosaicImage.setEffect(blurr);
-                // configBtn.setVisible(true);
+                updateImgTask.setOpened(true);
             });
 
 
@@ -311,7 +344,6 @@ public class MainWindowController {
                     hideSidebar.statusProperty().get() == Animation.Status.STOPPED) {
                 if (sidebarMenu.isVisible()) {
                     hideSidebar.play();
-                    // configBtn.setVisible(false);
                 } else {
                     sidebarMenu.setVisible(true);
                     showSidebar.play();

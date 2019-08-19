@@ -1,7 +1,6 @@
 package result;
 
 import entity.Departement;
-import entity.Student;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,9 +33,9 @@ public class DeptYearSearchResult implements MosaicSearchResult {
      * Wrapper around specific mosaic and its path
      */
     public static class MosaicResult implements ResultItem {
-        final String path;
-        final String year;
-        final Departement departement;
+        public final String path;
+        public final String year;
+        public final Departement departement;
         public MosaicResult(String path, String year, Departement departement) {
             this.path = path;
             this.year = year;
