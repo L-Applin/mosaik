@@ -31,11 +31,11 @@ sans lancer l'application.
 
 exemple d'utilisation : 
 
-`java -jar mosaik-1.0-SNAPSHOT-jar-with-dependencies.jar --img=E:\images --lang=en`
+`java -jar mosaique-app.jar --img=E:\images --lang=en`
 
 Lancerait l'application en anglais avec comme référence d'image un dossier 'images' qui se trouve sur le disque E.
 
-`java -jar mosaik-1.0-SNAPSHOT-jar-with-dependencies.jar --run=f --update=D:\ListeNomsPourMosaïques_20190808.xls`
+`java -jar mosaique-app.jar --run=f --update=D:\ListeNomsPourMosaïques_UTF8.csv`
 
 Permetrait de mettre à jour les informations concernant les étudiants et leur mosaique associé sans lancer 
 l'application.

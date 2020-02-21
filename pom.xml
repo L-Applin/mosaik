@@ -9,6 +9,16 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+
+
     <dependencies>
 
         <dependency>
@@ -61,11 +71,6 @@
 
     </dependencies>
 
-    <properties>
-        <maven.compiler.source>9</maven.compiler.source>
-        <maven.compiler.target>9</maven.compiler.target>
-    </properties>
-
 
     <build>
         <resources>
@@ -79,6 +84,8 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
+                    <finalName>mosaique-app</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
@@ -105,10 +112,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
                 <configuration>
-                    <release>9</release>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <verbose>true</verbose>
                 </configuration>
+
+                <version>3.6.1</version>
             </plugin>
 
             <plugin>
@@ -127,43 +137,43 @@
 
             </plugin>
 
-            <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.25</version>
-                <executions>
-                    <execution>
-                        <id>l4j-clui</id>
-                        <phase>package</phase>
-                        <goals><goal>launch4j</goal></goals>
-                        <configuration>
-                            <headerType>console</headerType>
-                            <outfile>app/mosaik.exe</outfile>
-                            <jar>target/mosaik-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
-                            <errTitle>encc</errTitle>
-                            <classPath>
-                                <mainClass>app.Main</mainClass>
-                                <addDependencies>true</addDependencies>
-                                <preCp>anything</preCp>
-                            </classPath>
-                            <jre>
-                                <minVersion>1.8</minVersion>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>1.2.3.4</fileVersion>
-                                <txtFileVersion>txt file version?</txtFileVersion>
-                                <fileDescription>a description</fileDescription>
-                                <copyright>my copyright</copyright>
-                                <productVersion>4.3.2.1</productVersion>
-                                <txtProductVersion>txt product version</txtProductVersion>
-                                <productName>E-N-C-C</productName>
-                                <internalName>ccne</internalName>
-                                <originalFilename>original.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.akathist.maven.plugins.launch4j</groupId>-->
+<!--                <artifactId>launch4j-maven-plugin</artifactId>-->
+<!--                <version>1.7.25</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>l4j-clui</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals><goal>launch4j</goal></goals>-->
+<!--                        <configuration>-->
+<!--                            <headerType>console</headerType>-->
+<!--                            <outfile>app/mosaik.exe</outfile>-->
+<!--                            <jar>target/mosaik-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>-->
+<!--                            <errTitle>encc</errTitle>-->
+<!--                            <classPath>-->
+<!--                                <mainClass>app.Main</mainClass>-->
+<!--                                <addDependencies>true</addDependencies>-->
+<!--                                <preCp>anything</preCp>-->
+<!--                            </classPath>-->
+<!--                            <jre>-->
+<!--                                <minVersion>${java.version}</minVersion>-->
+<!--                            </jre>-->
+<!--                            <versionInfo>-->
+<!--                                <fileVersion>1.2.3.4</fileVersion>-->
+<!--                                <txtFileVersion>txt file version?</txtFileVersion>-->
+<!--                                <fileDescription>a description</fileDescription>-->
+<!--                                <copyright>my copyright</copyright>-->
+<!--                                <productVersion>4.3.2.1</productVersion>-->
+<!--                                <txtProductVersion>txt product version</txtProductVersion>-->
+<!--                                <productName>E-N-C-C</productName>-->
+<!--                                <internalName>ccne</internalName>-->
+<!--                                <originalFilename>original.exe</originalFilename>-->
+<!--                            </versionInfo>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
         </plugins>
     </build>

@@ -3,7 +3,6 @@ package view;
 import app.AppConfig;
 import app.AppUtils;
 import app.Bundles;
-import com.sun.javafx.scene.control.skin.FXVK;
 import ij.ImagePlus;
 import ij.io.Opener;
 import images.ImageLoader;
@@ -19,7 +18,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -42,7 +40,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 
-import static com.sun.javafx.scene.control.skin.FXVK.VK_TYPE_PROP_KEY;
+//import com.sun.javafx.scene.control.skin.FXVK;
 
 
 @FXMLController("fxml/main.fxml")
@@ -90,7 +88,7 @@ public class MainWindowController {
     @FXML
     void initialize(){
 
-        logger.info("is virutal jeyboard supported : {}", FXVK.useFXVK());
+//        logger.info("is virutal jeyboard supported : {}", FXVK.useFXVK());
 
         ReadOnlyDoubleProperty height = mainView.heightProperty();
         ReadOnlyDoubleProperty width = mainView.widthProperty();
@@ -143,7 +141,7 @@ public class MainWindowController {
         updateImgTask.setOpened(true);
         updateImgTask.startUp();
 
-        departementsCombo.getProperties().put(VK_TYPE_PROP_KEY, "numeric");
+        departementsCombo.getProperties().put("vkType", "numeric");
 
 //        departementsCombo.focusedProperty().addListener((ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) -> {
 //            VirtualKeyboard keyboard = new VirtualKeyboard();
@@ -208,7 +206,7 @@ public class MainWindowController {
         String name = studentNameField.getText();
         name = Objects.isNull(name)?name:name.toLowerCase();
 
-        logger.info("\nsearching for mosaique : %s %s, %s\n", dept, year, name);
+        logger.info("\nsearching for mosaique : {} {}}, {}\n", dept, year, name);
 
         try {
             MosaicSearchResult res = service.search(name, dept, year);
@@ -365,20 +363,6 @@ public class MainWindowController {
             }
         }
     }
-
-
-
-
-    public class VirtualKeyboard {
-        public void show(Node node) {
-            node.getProperties().put(FXVK.VK_TYPE_PROP_KEY, "numeric");
-            FXVK.init(node);
-            FXVK.attach(node);
-        }
-        public void hide() {
-            FXVK.detach();
-        }
-    }
-
+    
 }
 
