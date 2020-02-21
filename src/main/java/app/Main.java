@@ -40,7 +40,7 @@ public class Main extends Application {
 
 
         if (config.requiresLaunch()) {
-            URL mainFXML_URL = this.getClass().getClassLoader().getResource("fxml/main.fxml");
+            URL mainFXML_URL = this.getClass().getClassLoader().getResource("/fxml/main.fxml");
             ResourceBundle bundle = ResourceBundle.getBundle("bundles/strings", config.getLocale());
             FXMLLoader loader = new FXMLLoader(mainFXML_URL, bundle);
 

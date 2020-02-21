@@ -25,7 +25,7 @@ public class DeptYearResultDialog extends Dialog<String> {
 
     public DeptYearResultDialog(List<ResultItem> results) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle(Bundles.STRINGS.bundle(), AppConfig.getInstance().getLocale());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/deptYearResultDialog.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/deptYearResultDialog.fxml"), bundle);
         Parent root = loader.load();
         getDialogPane().setContent(root);
 

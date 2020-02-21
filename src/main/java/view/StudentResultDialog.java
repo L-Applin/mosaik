@@ -25,7 +25,7 @@ public class StudentResultDialog extends Dialog<String> {
     public StudentResultDialog(List<ResultItem> results) throws IOException {
 
         ResourceBundle bundle = ResourceBundle.getBundle(Bundles.STRINGS.bundle(), AppConfig.getInstance().getLocale());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/studentResultDialog.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/studentResultDialog.fxml"), bundle);
         Parent root = loader.load();
         getDialogPane().setContent(root);
 
