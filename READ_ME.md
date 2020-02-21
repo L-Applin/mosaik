@@ -1,3 +1,6 @@
+## Nécéssite java 1.8 !!! 
+Si une version plus récente est utilisé, javaFX risque de ne pas être présent dans le JDK et l'application ne pourra pas fonctionner.
+
 # Options ligne de commande
 
 Note : Afin d'exécuter le fichier `.jar` correctement, veuillez suivre les étapes suivantes : 
@@ -21,9 +24,9 @@ départements sont subdivisées. Les noms doivent EXACTEMENT correspondre au sch
 
 ###`--update=<PATH>`
 Permet de mettre à jour les informations des étudiants gradués. Les anciennes informations seront <b>REMPLACÉES</b> 
-par le contenu du nouveau fichier. Différents types de fichier sont supportés. Le plus simple et sécuraitaire est 
-d'utiliser un ficher .xls dont le format est précisée plus bas. Supporte aussi des fichiers .csv ayant 
-un format adéquat.
+par le contenu du nouveau fichier. Supporte fichiers .csv ayant un format adéquat : 
+
+`Chimie;Barthe;Pierre;106010;Chimie;;1979-06-26;1976-1979;`
 
 ### `--run=f|t|false|true`
 Permet ne pas lancer l'application si `f` ou `false` est spécifié. Permet entre autres de faire des mise à jour 
